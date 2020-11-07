@@ -25,7 +25,7 @@ class voyo_web_api:
         body = { "username": self.__settings['username'], "password": self.__settings['password']}
         headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
 
-        self.__res = self.__ses.post('https://voyo.bg/bin/eshop/ws/user.php?x=login&r={}'.format(random.random()), headers=headers, data=body)
+        self.__res = self.__ses.post('https://voyo.si/bin/eshop/ws/user.php?x=login&r={}'.format(random.random()), headers=headers, data=body)
         if self.__res.status_code == 200:
             j = self.__res.json()
             return j['logged']
@@ -35,14 +35,14 @@ class voyo_web_api:
         body = { "productId": productid, "unitId": unitid, 'x': 'userStatus'}
         headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
 
-        self.__res = self.__ses.post('https://voyo.bg/bin/eshop/ws/user.php', headers=headers, data=body)
+        self.__res = self.__ses.post('https://voyo.si/bin/eshop/ws/user.php', headers=headers, data=body)
         if self.__res.status_code == 200:
             j = self.__res.json()
             return j['loggedIn']
         return False
 
     def __user_data(self):
-        self.__res = self.__ses.post('https://voyo.bg/bin/eshop/ws/user.php?x=userData&r={}'.format(
+        self.__res = self.__ses.post('https://voyo.si/bin/eshop/ws/user.php?x=userData&r={}'.format(
 			random.random()))
         if self.__res.status_code == 200:
             j = self.__res.json()
@@ -50,13 +50,13 @@ class voyo_web_api:
         return False
 
     def __is_logged_in(self):
-        self.__res = self.__ses.post('https://voyo.bg/bin/eshop/ws/user.php?x=isLoggedIn&r={}'.format(random.random()))
+        self.__res = self.__ses.post('https://voyo.si/bin/eshop/ws/user.php?x=isLoggedIn&r={}'.format(random.random()))
         if self.__res.status_code == 200:
             return self.__res.text == 'true'
         return False
 
     def __user_can_consume(self, product):
-        self.__res = self.__ses.post('https://voyo.bg/bin/eshop/ws/user.php?x=canConsume&prod={}&dev={}&r={}'.format(
+        self.__res = self.__ses.post('https://voyo.si/bin/eshop/ws/user.php?x=canConsume&prod={}&dev={}&r={}'.format(
 			product, self.__settings['device'], random.random()))
         if self.__res.status_code == 200:
             j = self.__res.json()
@@ -64,13 +64,13 @@ class voyo_web_api:
         return False
 
     def __user_ppv_status(self):
-        self.__res = self.__ses.post('https://voyo.bg/lbin/eshop/ws/user_ppv_status.php?&r={}'.format(random.random()))
+        self.__res = self.__ses.post('https://voyo.si/lbin/eshop/ws/user_ppv_status.php?&r={}'.format(random.random()))
         if self.__res.status_code == 200:
             return self.__res.text == 'true'
         return False
 
     def __user_info(self):
-        self.__res = self.__ses.post('https://voyo.bg/lbin/eshop/ws/ewallet.php?x=userInfo')
+        self.__res = self.__ses.post('https://voyo.si/lbin/eshop/ws/ewallet.php?x=userInfo')
         if self.__res.status_code == 200:
             j = self.__res.json()
             self.__username = j['Username']
@@ -78,14 +78,14 @@ class voyo_web_api:
         return False
 
     def __visitor(self):
-        self.__res = self.__ses.post('https://voyo.bg/lbin/global/visitor.php')
+        self.__res = self.__ses.post('https://voyo.si/lbin/global/visitor.php')
         if self.__res.status_code == 200:
             j = self.__res.json()
             return j['user']
         return False
 
     def __user_registration(self):
-        self.__res = self.__ses.post('https://voyo.bg/bin/registration2/user_info.php')
+        self.__res = self.__ses.post('https://voyo.si/bin/registration2/user_info.php')
         if self.__res.status_code == 200:
             jres = self.__res.json()
             return True
@@ -93,7 +93,7 @@ class voyo_web_api:
 
     def list_devices(self):
         devices = []
-        self.__res = self.__ses.post('https://voyo.bg/profil/?sect=devices')
+        self.__res = self.__ses.post('https://voyo.si/profil/?sect=devices')
         if self.__res.status_code == 200:
             soup = BeautifulSoup(self.__res.text, 'html.parser')
             dev_nav = soup.find_all('div', class_='device')
@@ -107,7 +107,7 @@ class voyo_web_api:
         return devices
 
     def device_allowed(self):
-        url = 'https://voyo.bg/bin/eshop/ws/ewallet.php?\
+        url = 'https://voyo.si/bin/eshop/ws/ewallet.php?\
 x=device&a=isAllowed&deviceHash={}&r={}'.format(self.__settings['device'], random.random())
         self.__res = self.__ses.post(url)
         if self.__res.status_code == 200:
@@ -115,7 +115,7 @@ x=device&a=isAllowed&deviceHash={}&r={}'.format(self.__settings['device'], rando
         return False
 
     def device_add(self):
-        url = 'https://voyo.bg/bin/eshop/ws/ewallet.php?x=device&a=add&deviceCode=PC&deviceHash={}\
+        url = 'https://voyo.si/bin/eshop/ws/ewallet.php?x=device&a=add&deviceCode=PC&deviceHash={}\
 &client={}"b":"S","bv":"537.36","ua":"Mozilla/5.0 (X11; Linux x86_64) \
 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"{}\
 &r={}'.format(self.__settings['device'], '{', '}', random.random())
@@ -125,7 +125,7 @@ AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"{}\
         return False
 
     def __get_product_url(self, product, unit, media, site, section, device):
-        url = 'https://voyo.bg/lbin/eshop/ws/plusPlayer.php?\
+        url = 'https://voyo.si/lbin/eshop/ws/plusPlayer.php?\
 x=streamStat&prod={}&unit={}&media={}&site={}&section={}&subsite=product&\
 embed=0&mute=0&size=&realSite={}&width=995&height=604&hash=&dev={}&\
 finish=finishedPlayer&streamQuality=NaN&imsz=711x448&r=0.12902104501512301'.format(
@@ -143,7 +143,7 @@ finish=finishedPlayer&streamQuality=NaN&imsz=711x448&r=0.12902104501512301'.form
         return ''
 
     def __plus_player_default(self, product, unit, device):
-        url = 'https://voyo.bg/lbin/eshop/ws/plusPlayer.php?\
+        url = 'https://voyo.si/lbin/eshop/ws/plusPlayer.php?\
 x=default&prod={}&unit={}&width=995&height=604&imsz=995x604&dev={}&wv=0&r={}'.format(
                 product, unit, device, random.random()
             )
@@ -152,7 +152,7 @@ x=default&prod={}&unit={}&width=995&height=604&imsz=995x604&dev={}&wv=0&r={}'.fo
 
     def __get_shaka_params(self, src):
         s_patt = {
-            'poster_url' : "var posterUrl = 'http://voyo.bg/(.+)';",
+            'poster_url' : "var posterUrl = 'http://voyo.si/(.+)';",
             'license_url' : "'lsu': '(.+)',",
             'play_url' : "'url': '(.+)',"
         }
@@ -170,12 +170,12 @@ x=default&prod={}&unit={}&width=995&height=604&imsz=995x604&dev={}&wv=0&r={}'.fo
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'en-GB,en;q=0.9,bg-BG;q=0.8,bg;q=0.7,en-US;q=0.6',
             'Connection': 'keep-alive',
-			'Host': 'voyo.bg',
+			'Host': 'voyo.si',
 			'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36',
 			'X-Requested-With': 'XMLHttpRequest'
             }
 
-        url = 'https://voyo.bg/lbin/eshop/ws/plusPlayer.php?\
+        url = 'https://voyo.si/lbin/eshop/ws/plusPlayer.php?\
 x=playerFlash&prod={}&unit={}&media={}&site={}&section={}&subsite=product&\
 embed=0&mute=0&size=&realSite={}&width=995&height=604&hash=&finish=finishedPlayer&dev={}&\
 wv=0&sts=undefined&formatQuality=null&r={}'.format(
@@ -195,7 +195,7 @@ wv=0&sts=undefined&formatQuality=null&r={}'.format(
         return ''
 
     def device_remove(self, dev_id):
-        url = 'https://voyo.bg/bin/eshop/ws/ewallet.php?\
+        url = 'https://voyo.si/bin/eshop/ws/ewallet.php?\
 x=device&a=remove&id={}r={}'.format(dev_id, random.random())
         self.__res = self.__ses.post(url)
         if self.__res.status_code == 200:
@@ -204,7 +204,7 @@ x=device&a=remove&id={}r={}'.format(dev_id, random.random())
 
     def sections(self):
         sect_list = []
-        self.__res = self.__ses.post('https://voyo.bg')
+        self.__res = self.__ses.post('https://voyo.si')
         if self.__res.status_code == 200:
             soup = BeautifulSoup(self.__res.text, 'html.parser')
             prod_nav = soup.find(id='product_navigation')
@@ -216,7 +216,7 @@ x=device&a=remove&id={}r={}'.format(dev_id, random.random())
         return sect_list
 
     def tv_radio(self, href):
-        url = 'https://voyo.bg{}'.format(href)
+        url = 'https://voyo.si{}'.format(href)
         self.__res = self.__ses.post(url)
         channel_list = []
         if self.__res.status_code == 200:
@@ -226,7 +226,7 @@ x=device&a=remove&id={}r={}'.format(dev_id, random.random())
                 item_list = chan.find_all('li')
                 for it in item_list:
                     channel_list.append((it['class'][0], it.a['href'],
-                           'https://voyo.bg{}'.format(it.a.div.img['src'])))
+                           'https://voyo.si{}'.format(it.a.div.img['src'])))
         return channel_list
 
     def __player_params(self, soup):
