@@ -71,7 +71,7 @@ __addon__   = xbmcaddon.Addon()
 getSettings()
 while not voyo.login():
     dialog = xbmcgui.Dialog()
-    dialog.ok(u'Грешка', u'Некоректни данни за абонамент!')
+    dialog.ok(u'Error', u'Incorrect subscription data!')
     __addon__.openSettings()
     getSettings()
 
@@ -200,17 +200,17 @@ def device_status():
     dialog = xbmcgui.Dialog()
     while not voyo.check_device():
         dialog.ok(
-        u'Грешка', 
-        u'Достигнал си максималния брой устройства, които могат да ползваш с този абонамент.',
-        u'Моля избери и изтрий устройство, за да продължиш да гледаш.'
+        u'Error', 
+        u'You have reached the maximum number of devices that you can use with this subscription.',
+        u'Please select and delete a device to continue watching.'
         )
         devices = voyo.get_devices()
         dev_lst = []
         for name1, name2, act_text, dev_id in devices:
             dev_lst.append('{} {} {} ({})'.format(name1, name2, act_text, dev_id))
-        i = dialog.select(u'Избери устройство за изтриване:', dev_lst)
+        i = dialog.select(u'Select a device to delete:', dev_lst)
         if not voyo.remove_device(devices[i][3]):
-            dialog.ok(u'Грешка', u'Неуспешно изтриване на устройство.')
+            dialog.ok(u'Error', u'Device deletion failed.')
 
 
 def play_tv(category, name, link, img, plot):
